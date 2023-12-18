@@ -23,7 +23,7 @@ class AlienInvasion:
 
         self._create_fleet()
 
-        # Set the background color directly in __init__
+        #Set the background color directly in __init__
         #self.bg_color = (230, 230, 230)
 
     def run_game(self):
@@ -79,13 +79,29 @@ class AlienInvasion:
 
     def _create_fleet(self):
         """create the fleet of aliens."""
-        #make an alien.
+        #create an alien & find the numbers of an alien in a row
+        #spacing between alien = one alien width.
+
         alien = Alien(self)
+        alien_width = alien.rect.width
+        available_space_x = self.settings.screen_width - (2 * alien_width)
+        number_aliens_x = available_space_x // (2 * alien_width)
+
+        #create the first row of aliens.
+        for alien_number in range(number_aliens_x):
+            self._create_alien(alien_number)
+
+    def _create_alien(self, alien_number):
+        """Create's an alien and place it in the row"""
+        alien = Alien(self)
+        alien_width = alien.rect.width
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
         self.aliens.add(alien)
 
 
     def _update_screen(self):
-         #Update image on the screen, and flip to the new screen
+        #Update image on the screen, and flip to the new screen
             self.screen.fill(self.settings.bg_color)
             self.ship.blitme()
             for bullet in self.bullets.sprites():
