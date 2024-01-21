@@ -27,13 +27,9 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.ship.update()
-            self.bullets.update()
-
-            # Get rid of bullets that have disappeared.
-            for bullet in self.bullets.copy():
-                if bullet.rect.bottom <= 0:
-                    self.bullets.remove(bullet)
-
+            self._update_bullets()
+            #self.update_alien()
+            self._update_aliens()
             self._update_screen()
 
     def _check_events(self):
@@ -96,6 +92,22 @@ class AlienInvasion:
         alien.rect.x = alien.x
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
         self.aliens.add(alien)
+
+    def _update_bullets(self):
+        """Update position of bullets and get rid of 
+            old bullets.
+        """
+        # Update bule position
+        self.bullets.update()
+
+        # Get rid of bullets that have disappeared.
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+
+    def _update_aliens(self):
+        """ Update all position of all aliens in the fleet."""
+        self.aliens.update()
 
     def _update_screen(self):
         # Update images on the screen, and flip to the new screen
